@@ -39,18 +39,23 @@ def ler_usu(condicao, caracter, integer=False):
     for row in cursor.execute(sql):
         print(row)
 
-def alterar_dados(nome=False, idade=False, email=False):
+def alterar_dados( condicao, nome=False, idade=False, email=False):
+    
+    banco = sq.connect('database.db')
+    cursor = banco.cursor() 
+    
     if nome:
-        modificar = str(input('Oque deseja por no lugar : '))            
-        return cursor.execute(f'UPDATE pessoas set nome = "{modificar}" WHERE nome = "{nome}"'),
+            
+        cursor.execute(f'UPDATE pessoas set nome = "{condicao}" WHERE nome = "{nome}"')
+        banco.commit()
 
     if idade:
-        modificar = int(input('Oque desaja por no lugar : '))
-        return cursor.execute(f'UPDATE pessoas set idade = "{modificar}" WHERE idade = "{idade}"'),
+         
+        return cursor.execute(f'UPDATE pessoas set idade = "{ondicao}" WHERE idade = "{idade}"'),
 
     if email:
-        modificar = str(input('Oque deseja por no lugar : '))
-        return cursor.execute(f'UPDATE pessoas set email = "{modificar}" WHERE email = "{email}"'),
+        
+        return cursor.execute(f'UPDATE pessoas set email = "{condicao}" WHERE email = "{email}"'),
     
     
 

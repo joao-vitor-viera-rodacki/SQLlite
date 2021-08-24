@@ -27,15 +27,7 @@ def cadastra_usu():
     print(usuario_dados)
     return geraResponse(200, 'User Criado!', 'User', usuario_dados)
 
-def geraResponse(status, mensagem, nome_do_conteudo=False, conteudo=False):    
-    response = {}
-    response['status'] = status
-    response['mesagem'] = mensagem
 
-    if (nome_do_conteudo and conteudo):
-        response[nome_do_conteudo] = conteudo
-
-    return response
 
 @app.route('/excluir_usu',methods=['POST'])
 def excluir_usu():
@@ -52,5 +44,33 @@ def excluir_usu():
 
     usuario_dados = data.excluir_usu('nome', body['nome'])
     return geraResponse(200,'Usuario deletado com sucesso!!','user', usuario_dados)
+
+
+@app.route('/alterar_dados', methods=['POST'])
+def alterar_dados():
+    body = request.get_json()
+
+    if ('nome' not in body):
+        return geraResponse(400, "O nome é obrigatorio!")
+    if ('alteração' not in body):
+        return geraResponse(400, "A alteração que vai ser feita é obrigatoria")
+    if ('condição' not in body):
+        return geraResponse(400, "A condição precisa ser imposta")
+    
+
+    usuario_dados = data.alterar_dados(body['alteração'],nome=body['condição'] )
+    
+    return geraResponse(200, 'usuario modificado', 'user', usuario_dados)
+
+def geraResponse(status, mensagem, nome_do_conteudo=False, conteudo=False):    
+    response = {}
+    response['status'] = status
+    response['mesagem'] = mensagem
+
+    if (nome_do_conteudo and conteudo):
+        response[nome_do_conteudo] = conteudo
+
+    return response
+
 
 app.run()
